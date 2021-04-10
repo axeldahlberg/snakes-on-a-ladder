@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.ottersnail.soal";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+message DiceRollRequest {
+  int32 player_number = 1;
+  //google.protobuf.Timestamp timestamp = 2;
+}
+
+message GameBoardStatus {
+  int32 position = 1;
+  Event event = 2;
+}
+
+enum Event {
+  MOVE = 0;
+  SNAKE = 1;
+  LADDER = 2;
+  WIN = 3;
+  LOSE = 4;
+}
+
+message DiceRollResponse {
+  Dice dice = 1;
+  GameBoardStatus game_board_status = 2;
+
+  //google.protobuf.Timestamp timestamp = 3;
+}
+
+message Dice {
+  int32 value = 1;
+}
+
+service SnakesOnALadderGameService {
+
+  rpc rollDice(stream DiceRollRequest) returns (stream DiceRollResponse);
+
+}
